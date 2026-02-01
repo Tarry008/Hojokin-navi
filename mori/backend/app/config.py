@@ -41,7 +41,7 @@ def load_settings() -> Settings:
         app_env=os.getenv("APP_ENV", "local"),
         app_host=os.getenv("APP_HOST", "0.0.0.0"),
         app_port=int(os.getenv("APP_PORT", "8000")),
-        frontend_origin=os.getenv("FRONTEND_ORIGIN", "http://localhost:8000"),
+        frontend_origin=os.getenv("FRONTEND_ORIGIN", "http://localhost:5173"),
         gcp_project_id=os.getenv("GCP_PROJECT_ID"),
         gcp_region=os.getenv("GCP_REGION", "asia-northeast1"),
         gcp_firestore_database=os.getenv("GCP_FIRESTORE_DATABASE", "(default)"),

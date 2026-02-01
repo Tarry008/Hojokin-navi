@@ -28,9 +28,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-frontend_dir = settings.frontend_dir
-if frontend_dir.exists():
-    app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
+frontend_root = settings.frontend_dir
+dist_dir = frontend_root / "dist"
+assets_dir = dist_dir / "assets"
+
+if dist_dir.exists() and assets_dir.exists():
+    app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
 
 
 def _llm_callback(user: UserInput, program) -> ProgramRecommendation | None:
@@ -54,7 +57,7 @@ def _llm_callback(user: UserInput, program) -> ProgramRecommendation | None:
 
 @app.get("/")
 async def root() -> FileResponse:
-    index_path = frontend_dir / "index.html"
+    index_path = dist_dir / "index.html" if dist_dir.exists() else frontend_root / "index.html"
     if not index_path.exists():
         raise HTTPException(status_code=404, detail="Frontend not found")
     return FileResponse(index_path)

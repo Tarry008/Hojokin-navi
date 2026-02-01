@@ -5,8 +5,9 @@
 ## 前提
 - uv を使用
 - Python 3.12.8
+- フロントエンドは React (Vite + TypeScript) + Tailwind CSS
 
-## ローカル起動（uv）
+## ローカル起動（バックエンド）
 
 ```
 cd mori/backend
@@ -17,7 +18,28 @@ copy .env.example .env
 uv run --python .venv -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-ブラウザで `http://localhost:8000` を開くとフロントエンドが表示されます。
+## ローカル起動（フロントエンド）
+
+別ターミナルで以下を実行します。
+
+```
+cd mori/frontend
+npm install
+npm run dev
+```
+
+- フロントエンド: `http://localhost:5173`
+- バックエンドAPI: `http://localhost:8000`
+
+## バックエンドからフロントエンドを配信したい場合
+
+```
+cd mori/frontend
+npm run build
+```
+
+その後、バックエンドを起動すると `http://localhost:8000` で `dist` が配信されます。
+この場合は `FRONTEND_ORIGIN=http://localhost:8000` に変更してください。
 
 ## API
 

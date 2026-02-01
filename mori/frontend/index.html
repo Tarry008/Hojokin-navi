@@ -4,96 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>自治体給付金・補助金 判定AI</title>
-    <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
-    <div class="bg-orb orb-one"></div>
-    <div class="bg-orb orb-two"></div>
-
-    <header class="site-header">
-      <div>
-        <p class="eyebrow">RAG × Google Cloud</p>
-        <h1>自治体給付金・補助金 判定AI</h1>
-        <p class="subhead">
-          対象/対象外の断定ではなく、<strong>対象になるための道筋</strong>まで提示します。
-        </p>
-      </div>
-      <div class="stat">
-        <span class="stat-number">70%</span>
-        <span class="stat-text">の経営者が「どの補助金を使えばいいか不明」と回答</span>
-      </div>
-    </header>
-
-    <nav class="tabs">
-      <button class="tab active" data-view="input">個人情報入力</button>
-      <button class="tab" data-view="list">補助金一覧</button>
-      <button class="tab" data-view="detail">補助金詳細</button>
-    </nav>
-
-    <main>
-      <section id="view-input" class="view active">
-        <div class="card">
-          <h2>あなたの情報を入力</h2>
-          <p class="hint">必須：年齢、年収、世帯、職業 / 任意：扶養人数</p>
-          <form id="profile-form" class="form-grid">
-            <label>
-              年齢
-              <input type="number" name="age" min="15" max="100" required value="25" />
-            </label>
-            <label>
-              年収（円）
-              <input type="number" name="income_yen" min="0" step="10000" required value="3200000" />
-            </label>
-            <label>
-              世帯人数
-              <input type="number" name="household" min="1" max="10" required value="2" />
-            </label>
-            <label>
-              職業
-              <input type="text" name="occupation" placeholder="例: 会社員 / 経営者" required />
-            </label>
-            <label>
-              扶養人数（任意）
-              <input type="number" name="dependents" min="0" max="10" />
-            </label>
-            <label>
-              自治体（任意）
-              <input type="text" name="municipality" placeholder="例: ○○市" />
-            </label>
-            <button class="primary" type="submit">診断を開始</button>
-          </form>
-        </div>
-
-        <div class="card note">
-          <h3>グレーゾーンへの案内</h3>
-          <ul>
-            <li>対象外と判断されても「どうすれば対象になるか」を優先的に提示します。</li>
-            <li>期限・必要書類・最初のTODOをセットで提示します。</li>
-          </ul>
-        </div>
-      </section>
-
-      <section id="view-list" class="view">
-        <div class="card list-card">
-          <div class="list-header">
-            <h2>あなたに近い補助金一覧</h2>
-            <p id="municipality-label"></p>
-          </div>
-          <div id="results" class="results"></div>
-        </div>
-      </section>
-
-      <section id="view-detail" class="view">
-        <div class="card">
-          <div id="detail"></div>
-        </div>
-      </section>
-    </main>
-
-    <footer>
-      <p>データ保管: Cloud Storage / メタデータ: Firestore / 推論: Vertex AI (オプション)</p>
-    </footer>
-
-    <script src="/static/app.js"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
