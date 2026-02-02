@@ -1,0 +1,19 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply font-sans text-ink;
+  background: linear-gradient(160deg, #f8f5ef 0%, #eef5ff 60%, #fef9f3 100%);
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
