@@ -1,4 +1,3 @@
-# プロバイダ設定
 terraform {
   required_providers {
     google = {
@@ -8,7 +7,6 @@ terraform {
   }
 }
 
-# Google Cloud プロバイダの設定
 provider "google" {
   project = "ai-hackathon-dev"
   region  = "asia-northeast1"
@@ -17,10 +15,10 @@ provider "google" {
 
 module "database" {
   source        = "../../modules/database"
-  instance_tier = "db-f1-micro"
+  instance_tier = ""
 }
 
 module "network" {
   source   = "../../modules/network"
-  vpc_name = "network-dev"
+  vpc_name = ""
 }
