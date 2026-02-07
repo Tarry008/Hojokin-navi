@@ -12,12 +12,16 @@ resource "google_compute_subnetwork" "network-subnet" {
   network       = google_compute_network.vpc_network.id
 }
 
-resource "google_vpc_access_connector" "connector" {
-  name          = "${var.vpc_name}-connector"
-  region        = "asia-northeast1"
-  network       = google_compute_network.vpc_network.name
-  ip_cidr_range = "10.8.0.0/28"
+resource "google_compute_global_address" "vertex_ai-ip-range" {
+  name          = "vertex-ai-ip-range"
+  purpose       = "VPC_PEERING"
+  address_type  = "INTERNAL"
+  prefix_length = 16
+  network       = google_compute_network.vpc_network.id
+}
 
-  min_instances = 2
-  max_instances = 3
+resource "google_service_networking_connection" "vertex_connection" {
+  network                 = google_compute_network.vpc_network.id
+  service                 = "servicenetworking.googleapis.com"
+  reserved_peering_ranges = [google_compute_global_address.vertex_ai-ip-range.name]
 }

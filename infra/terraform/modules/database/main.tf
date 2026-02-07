@@ -1,6 +1,6 @@
 resource "google_sql_database_instance" "main" {
   name                = "main-instance"
-  database_version    = "POSTGRES_15"
+  database_version    = "MYSQL_8_0"
   region              = "asia-northeast1"
   deletion_protection = false
 
