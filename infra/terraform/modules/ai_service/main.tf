@@ -25,3 +25,17 @@ resource "google_vertex_ai_index_endpoint" "rag_endpoint" {
   network                 = var.vpc_id
   public_endpoint_enabled = false
 }
+
+resource "google_vertex_ai_index_endpoint_deployed_index" "rag_deployed_index" {
+  index_endpoint    = google_vertex_ai_index_endpoint.rag_endpoint.id
+  index             = google_vertex_ai_index.rag_index.id
+  deployed_index_id = "rag_deployed_index_id"
+
+  dedicated_resources {
+    machine_spec {
+      machine_type = var.machine_type
+    }
+    min_replica_count = 1
+    max_replica_count = 1
+  }
+}

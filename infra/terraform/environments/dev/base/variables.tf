@@ -4,6 +4,5 @@ variable "developer" {
 }
 
 variable "project_id" {
-  description = "Google CloudのプロジェクトID"
-  type        = string
+  type = string
 }

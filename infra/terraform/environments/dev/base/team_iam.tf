@@ -1,3 +1,10 @@
+resource "google_project_iam_member" "developer_view" {
+  for_each = toset(var.developer)
+  project  = var.project_id
+  role     = "roles/viewer"
+  member   = each.value
+}
+
 # メンバー全員「Cloud Runのデプロイ」を許可
 resource "google_project_iam_member" "developer_run" {
   for_each = toset(var.developer)

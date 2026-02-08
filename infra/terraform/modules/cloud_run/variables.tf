@@ -11,6 +11,10 @@ variable "vertex_index_endpoint_id" {
   type = string
 }
 
+variable "run_sa_email" {
+  type = string
+}
+
 variable "vpc_id" {
   type = string
 }
@@ -20,6 +24,10 @@ variable "subnet_id" {
 }
 
 variable "project_id" {
+  type = string
+}
+
+variable "repository_url" {
   type = string
 }
 

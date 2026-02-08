@@ -1,3 +1,3 @@
-output "cloud_run_service_account_email" {
-  value = google_service_account.run_sa.email
+output "cloud_run_service_name" {
+  value = google_cloud_run_v2_service.default.name
 }
