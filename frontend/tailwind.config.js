@@ -5,7 +5,7 @@ export default {
     extend: {
       fontFamily: {
         serif: ["\"Shippori Mincho\"", "serif"],
-        sans: ["\"Zen Kaku Gothic New\"", "sans-serif"],
+        sans: ["\"Shippori Mincho\"", "serif"],
       },
       colors: {
         ink: "#1f2a33",

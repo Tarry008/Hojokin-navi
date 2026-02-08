@@ -151,15 +151,12 @@ export default function App() {
       <div className="pointer-events-none fixed -bottom-32 right-0 h-80 w-80 rounded-full bg-[radial-gradient(circle_at_top,_#f59e0b,_transparent_60%)] opacity-40 blur-md" />
 
       <header className="relative z-10 px-[8vw] pt-12">
-        <p className="text-xs uppercase tracking-[0.3em] text-muted">RAG × Google Cloud</p>
-        <h1 className="font-serif text-3xl md:text-4xl">自治体給付金・補助金 判定AI</h1>
+        <h1 className="text-3xl font-extrabold text-emerald-900 md:text-4xl">AI補助金ナビ</h1>
         <p className="mt-3 max-w-2xl text-base text-muted">
-          対象/対象外の断定ではなく、<span className="font-semibold text-accent">対象になるための道筋</span>まで提示します。
+          <span className="font-bold text-ink">
+            補助金受給の可能性を即座に判定し、AIが確かな根拠を提示します。
+          </span>
         </p>
-        <div className="mt-6 inline-flex items-baseline gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 shadow-soft">
-          <span className="text-3xl font-bold text-accent2">70%</span>
-          <span className="text-sm text-muted">の経営者が「どの補助金を使えばいいか不明」と回答</span>
-        </div>
       </header>
 
       <nav className="relative z-10 mt-6 flex flex-wrap gap-3 px-[8vw]">
@@ -170,10 +167,11 @@ export default function App() {
         ].map((tab) => (
           <button
             key={tab.key}
-            className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
+            className={`rounded-full border px-4 py-2 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-50 ${
               view === tab.key ? 'border-transparent bg-accent text-white' : 'border-slate-300 bg-white text-ink'
             }`}
             onClick={() => setView(tab.key as View)}
+            disabled={tab.key === 'detail' && !selected}
           >
             {tab.label}
           </button>
@@ -184,8 +182,8 @@ export default function App() {
         {view === 'input' && (
           <section className="grid gap-6">
             <div className="rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-soft">
-              <h2 className="font-serif text-xl">あなたの情報を入力</h2>
-              <p className="mt-2 text-sm text-muted">必須：年齢、年収、世帯、職業 / 任意：扶養人数</p>
+              <h2 className="text-xl">あなたの情報を入力</h2>
+              <p className="mt-2 text-sm text-muted">必須：年齢、年収、世帯、職業 / 任意：扶養人数、市区町村</p>
               <form className="mt-5 grid gap-4 md:grid-cols-2" onSubmit={onSubmit}>
                 <label className="flex flex-col gap-2 text-sm text-muted">
                   年齢
@@ -246,7 +244,7 @@ export default function App() {
                   />
                 </label>
                 <label className="flex flex-col gap-2 text-sm text-muted">
-                  自治体（任意）
+                  市区町村（任意）
                   <input
                     type="text"
                     placeholder="例: ○○市"
@@ -266,21 +264,14 @@ export default function App() {
               </form>
             </div>
 
-            <div className="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-6">
-              <h3 className="font-serif text-lg">グレーゾーンへの案内</h3>
-              <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-muted">
-                <li>対象外と判断されても「どうすれば対象になるか」を優先的に提示します。</li>
-                <li>期限・必要書類・最初のTODOをセットで提示します。</li>
-              </ul>
-            </div>
           </section>
         )}
 
         {view === 'list' && (
           <section className="rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-soft">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <h2 className="font-serif text-xl">あなたに近い補助金一覧</h2>
-              {municipality && <span className="text-sm text-muted">対象自治体: {municipality}</span>}
+              <h2 className="text-xl">あなたに近い補助金一覧</h2>
+              {municipality && <span className="text-sm text-muted">対象市区町村： {municipality}</span>}
             </div>
             <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {results.length === 0 && (
@@ -316,7 +307,7 @@ export default function App() {
                   <div className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${levelStyles[selected.level]}`}>
                     {levelLabel[selected.level]}
                   </div>
-                  <h2 className="mt-3 font-serif text-2xl">{selected.program_name}</h2>
+                  <h2 className="mt-3 text-2xl">{selected.program_name}</h2>
                   {detail?.summary && <p className="mt-2 text-sm text-muted">{detail.summary}</p>}
                   {detail?.eligibility?.notes && (
                     <p className="mt-2 text-sm text-muted">
@@ -350,18 +341,21 @@ export default function App() {
                   </div>
 
                   <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                    <h3 className="font-semibold">根拠</h3>
-                    <div className="mt-3 space-y-3 text-xs text-muted">
-                      {selected.evidence.map((item, idx) => (
-                        <div key={idx} className="rounded-xl bg-white p-3">
-                          <p className="font-semibold text-ink">p.{item.page}</p>
-                          <p className="mt-1">{item.snippet}</p>
-                          <p className="mt-1 break-all">{item.source_url}</p>
-                        </div>
-                      ))}
-                    </div>
+                  <h3 className="font-semibold">根拠</h3>
+                  <div className="mt-3 space-y-3 text-xs text-muted">
+                    {selected.evidence.length === 0 && (
+                      <p className="rounded-xl bg-white p-3 text-sm text-muted">根拠資料が未登録です。</p>
+                    )}
+                    {selected.evidence.map((item, idx) => (
+                      <div key={idx} className="rounded-xl bg-white p-3">
+                        <p className="font-semibold text-ink">p.{item.page}</p>
+                        <p className="mt-1">{item.snippet}</p>
+                        <p className="mt-1 break-all">{item.source_url}</p>
+                      </div>
+                    ))}
                   </div>
                 </div>
+              </div>
               </div>
             )}
           </section>
@@ -369,7 +363,7 @@ export default function App() {
       </main>
 
       <footer className="px-[8vw] pb-10 text-xs text-muted">
-        データ保管: Cloud Storage / メタデータ: Firestore / 推論: Vertex AI (オプション)
+        判定は入力情報に基づくルールベースです。根拠は登録済み資料の抜粋を表示しています。
       </footer>
     </div>
   );
