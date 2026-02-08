@@ -2,7 +2,7 @@
 
 from typing import List, Optional
 
-from ..models import Program, Evidence, Eligibility
+from ..models import Program, Eligibility
 
 
 class FirestoreStore:
@@ -29,15 +29,6 @@ class FirestoreStore:
 
     def _doc_to_program(self, doc) -> Program:
         data = doc.to_dict() or {}
-        evidence_docs = self.client.collection("programs").document(doc.id).collection("evidence").stream()
-        evidence = [
-            Evidence(
-                page=item.to_dict().get("page", 0),
-                source_url=item.to_dict().get("source_url", ""),
-                snippet=item.to_dict().get("snippet", ""),
-            )
-            for item in evidence_docs
-        ]
         eligibility = Eligibility.model_validate(data.get("eligibility", {}))
         return Program(
             program_id=data.get("program_id", doc.id),
@@ -46,7 +37,5 @@ class FirestoreStore:
             summary=data.get("summary", ""),
             eligibility=eligibility,
             deadline=data.get("deadline"),
-            todo_steps=data.get("todo_steps", []),
             gray_zone_guidance=data.get("gray_zone_guidance", []),
-            evidence=evidence,
         )

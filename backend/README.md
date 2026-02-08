@@ -43,6 +43,8 @@ npm run build
 
 ## API
 
+- 本APIの対象自治体は `港区` のみです。
+
 ### POST /api/recommendations
 入力:
 ```
@@ -58,11 +60,11 @@ npm run build
 出力:
 ```
 {
-  "municipality": "○○市",
+  "municipality": "港区",
   "results": [
     {
-      "program_id": "city_young_single_001",
-      "program_name": "○○市 若年単身者支援金",
+      "program_id": "minato_single_support_004",
+      "program_name": "港区 若年単身者家賃支援",
       "level": "high",
       "confidence": 0.82,
       "reasons": [
@@ -85,11 +87,10 @@ npm run build
 
 ### Firestore
 - `USE_FIRESTORE=true` + `GCP_PROJECT_ID` を設定すると Firestore を読み書きします。
-- ローカルで試す場合は `scripts/seed_firestore.py` を実行してください。
 
 ### Cloud Storage
 - PDF原本を `gs://<bucket>/pdfs/<program_id>.pdf` に置く想定。
 
 ### Vertex AI
-- `USE_VERTEX_AI=true` を設定すると `/api/recommendations` が Vertex AI の結果を優先します（失敗時はルールベースにフォールバック）。
+- `USE_VERTEX_AI=true` を設定してください。`/api/recommendations` の根拠 (`reasons/evidence`) と TODO は LLM 生成を必須にしています。
 - LLMの出力フォーマットは `/api/llm/format` で確認可能。

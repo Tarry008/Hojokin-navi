@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 from pathlib import Path
 import os
+from typing import Optional
 
 
 def _to_bool(value: str | None, default: bool = False) -> bool:
@@ -17,6 +18,14 @@ class Settings:
     app_host: str
     app_port: int
     frontend_origin: str
+    use_mysql: bool
+    cloudsql_host: str
+    cloudsql_port: int
+    cloudsql_unix_socket: Optional[str]
+    cloudsql_user: str
+    cloudsql_password: str
+    cloudsql_database: str
+    cloudsql_connect_timeout: int
     gcp_project_id: str | None
     gcp_region: str
     gcp_firestore_database: str
@@ -42,6 +51,14 @@ def load_settings() -> Settings:
         app_host=os.getenv("APP_HOST", "0.0.0.0"),
         app_port=int(os.getenv("APP_PORT", "8000")),
         frontend_origin=os.getenv("FRONTEND_ORIGIN", "http://localhost:5173"),
+        use_mysql=_to_bool(os.getenv("USE_MYSQL"), True),
+        cloudsql_host=os.getenv("CLOUDSQL_HOST", "127.0.0.1"),
+        cloudsql_port=int(os.getenv("CLOUDSQL_PORT", "3307")),
+        cloudsql_unix_socket=os.getenv("CLOUDSQL_UNIX_SOCKET"),
+        cloudsql_user=os.getenv("CLOUDSQL_USER", "root"),
+        cloudsql_password=os.getenv("CLOUDSQL_PASSWORD", ""),
+        cloudsql_database=os.getenv("CLOUDSQL_DATABASE", "hojokin_db"),
+        cloudsql_connect_timeout=int(os.getenv("CLOUDSQL_CONNECT_TIMEOUT", "5")),
         gcp_project_id=os.getenv("GCP_PROJECT_ID"),
         gcp_region=os.getenv("GCP_REGION", "asia-northeast1"),
         gcp_firestore_database=os.getenv("GCP_FIRESTORE_DATABASE", "(default)"),
