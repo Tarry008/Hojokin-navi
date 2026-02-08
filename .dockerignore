@@ -1,0 +1,14 @@
+.git
+.venv
+cloud_sql_proxy.exe
+
+frontend/node_modules
+frontend/dist
+
+backend/.venv
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/.pytest_cache
+
+infra/terraform/.terraform
