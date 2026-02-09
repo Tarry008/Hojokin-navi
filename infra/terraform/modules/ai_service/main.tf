@@ -4,9 +4,11 @@ resource "google_vertex_ai_index" "rag_index" {
 
   metadata {
     contents_delta_uri = "gs://${var.vector_bucket_name}/embeddings"
+
     config {
       dimensions                  = 768
       approximate_neighbors_count = 150
+      shard_size                  = "SHARD_SIZE_SMALL"
       algorithm_config {
         tree_ah_config {
           leaf_node_embedding_count    = 500
@@ -22,7 +24,7 @@ resource "google_vertex_ai_index_endpoint" "rag_endpoint" {
   display_name = var.rag_endpoint_name
   region       = "asia-northeast1"
 
-  network                 = var.vpc_id
+  network                 = "projects/${var.project_number}/global/networks/${var.vpc_name}"
   public_endpoint_enabled = false
 }
 

@@ -18,13 +18,14 @@ data "terraform_remote_state" "base" {
 
   config = {
     bucket = "${var.project_id}-tfstate"
-    prefix = "terraform/dev/base"
+    prefix = "terraform/state/dev/base"
   }
 }
 
 module "sa_iam" {
   source                 = "../../../modules/sa_iam"
   project_id             = var.project_id
+  project_number         = data.terraform_remote_state.base.outputs.project_number
   run_sa_email           = data.terraform_remote_state.base.outputs.run_sa_email
   eventarc_sa_email      = data.terraform_remote_state.base.outputs.eventarc_sa_email
   repository_location    = data.terraform_remote_state.base.outputs.repository_location
@@ -53,14 +54,14 @@ module "ai_service" {
   rag_endpoint_name  = "dev_rag_endpoint_name"
   project_id         = var.project_id
   project_number     = data.terraform_remote_state.base.outputs.project_number
-  vpc_id             = data.terraform_remote_state.base.outputs.vpc_id
+  vpc_name           = data.terraform_remote_state.base.outputs.vpc_name
   vector_bucket_name = data.terraform_remote_state.base.outputs.vector_bucket_name
-  machine_type       = "n1-standard-2"
+  machine_type       = "e2-standard-2"
 }
 
 module "eventarc" {
   source                 = "../../../modules/eventarc"
-  input_pdf_bucket_name  = module.storage.raw_data_bucket_name
-  cloud_run_service_name = module.cloud_run.service_name
-  eventarc_sa_email      = module.service_account.eventarc_sa_email
+  input_pdf_bucket_name  = data.terraform_remote_state.base.outputs.raw_bucket_name
+  cloud_run_service_name = module.cloud_run.cloud_run_service_name
+  eventarc_sa_email      = data.terraform_remote_state.base.outputs.eventarc_sa_email
 }
