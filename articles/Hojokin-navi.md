@@ -88,7 +88,7 @@ graph LR
 - 条件一致率（matched / total_checks）からスコアを算出
 - スコアに応じて `high / medium / low / unknown` を決定
 - 信頼度は `0.4 + 0.6 * score` で計算
-- `high` でない場合は灰色地帯のガイドを追加
+- `high` でない場合はグレーゾーンのガイドを追加
 
 ### LLM連携とフォールバック
 - `USE_VERTEX_AI=true` の場合、Vertex AI の結果を優先
@@ -114,7 +114,7 @@ graph LR
   "household": 2,
   "occupation": "会社員",
   "dependents": 0,
-  "municipality": "○○市"
+  "municipality": "港区"
 }
 ```
 
@@ -127,7 +127,6 @@ graph LR
       "program_id": "city_young_single_001",
       "program_name": "○○市 若年単身者支援金",
       "level": "high",
-      "confidence": 0.82,
       "reasons": [
         {"text": "対象年齢に該当する", "evidence_ref": 0}
       ],
