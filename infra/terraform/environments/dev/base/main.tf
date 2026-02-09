@@ -18,6 +18,7 @@ data "google_project" "project" {}
 module "database" {
   source        = "../../../modules/database"
   instance_tier = "db-f1-micro"
+  db_iam_user   = var.developer
 }
 
 module "network" {

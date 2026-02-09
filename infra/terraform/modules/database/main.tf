@@ -6,5 +6,10 @@ resource "google_sql_database_instance" "main" {
 
   settings {
     tier = var.instance_tier
+
+    database_flags {
+      name  = "cloudsql_iam_authentication"
+      value = "on"
+    }
   }
 }
