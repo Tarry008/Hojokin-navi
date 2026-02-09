@@ -2,6 +2,10 @@ variable "project_id" {
   type = string
 }
 
+variable "project_number" {
+  type = string
+}
+
 variable "run_sa_email" {
   type = string
 }

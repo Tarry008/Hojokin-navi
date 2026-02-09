@@ -8,7 +8,7 @@ variable "rag_endpoint_name" {
   type        = string
 }
 
-variable "vpc_id" {
+variable "vpc_name" {
   type = string
 }
 

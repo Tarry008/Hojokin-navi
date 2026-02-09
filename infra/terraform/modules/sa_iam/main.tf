@@ -29,3 +29,21 @@ resource "google_cloud_run_service_iam_member" "eventarc_run_invoker" {
   role     = "roles/run.invoker"
   member   = "serviceAccount:${var.eventarc_sa_email}"
 }
+
+resource "google_project_iam_member" "pubsub_service_account_token_creator" {
+  project = var.project_id
+  role    = "roles/iam.serviceAccountTokenCreator"
+  member  = "serviceAccount:service-${var.project_number}@gcp-sa-pubsub.iam.gserviceaccount.com"
+}
+
+resource "google_project_iam_member" "eventarc_sa_receiver" {
+  project = var.project_id
+  role    = "roles/eventarc.eventReceiver"
+  member  = "serviceAccount:${var.eventarc_sa_email}"
+}
+
+resource "google_project_iam_member" "gcs_pubsub_publishing" {
+  project = var.project_id
+  role    = "roles/pubsub.publisher"
+  member  = "serviceAccount:service-${var.project_number}@gs-project-accounts.iam.gserviceaccount.com"
+}

@@ -7,6 +7,10 @@ output "repository_id" {
   value = module.artifact_registry.repository_id
 }
 
+output "repository_location" {
+  value = module.artifact_registry.repository_location
+}
+
 output "run_sa_email" {
   description = "Cloud Runに割りあてるサービスアカウントのメールアドレス"
   value       = module.sa_creation.run_sa_email
