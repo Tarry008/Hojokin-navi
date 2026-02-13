@@ -65,7 +65,7 @@ def load_settings() -> Settings:
         gcp_storage_bucket=os.getenv("GCP_STORAGE_BUCKET"),
         use_firestore=_to_bool(os.getenv("USE_FIRESTORE"), False),
         use_vertex_ai=_to_bool(os.getenv("USE_VERTEX_AI"), False),
-        vertex_model=os.getenv("VERTEX_MODEL", "gemini-1.5-pro-002"),
+        vertex_model=os.getenv("VERTEX_MODEL", "gemini-2.5-flash"),
         vertex_temperature=float(os.getenv("VERTEX_TEMPERATURE", "0.2")),
         base_dir=base_dir,
         backend_dir=backend_dir,

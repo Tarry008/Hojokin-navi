@@ -87,11 +87,24 @@ async def recommendations(payload: UserInput) -> RecommendationResponse:
     results: list[ProgramRecommendation] = []
     for item in base_results:
         llm_item = llm_result_map.get(item.program_id)
+        
+        # AIが回答を生成できなかった場合のフォールバック（不整合を許容して表示を優先）
         if not llm_item:
-            raise HTTPException(
-                status_code=503,
-                detail="Failed to generate reasons/todo/evidence from Vertex AI. Please retry.",
+            from .models import Deadline # インポートが必要なら追加
+            results.append(
+                ProgramRecommendation(
+                    program_id=item.program_id,
+                    program_name=item.program_name,
+                    eligible=item.eligible,
+                    level=item.level,
+                    reasons=item.reasons, # ルールエンジンの理由を流用
+                    deadline=item.deadline,
+                    todo=[],
+                    evidence=[],
+                )
             )
+            continue
+            
         results.append(
             ProgramRecommendation(
                 program_id=item.program_id,
@@ -104,7 +117,6 @@ async def recommendations(payload: UserInput) -> RecommendationResponse:
                 evidence=llm_item.evidence,
             )
         )
-
     return RecommendationResponse(
         municipality=municipality,
         results=results,
