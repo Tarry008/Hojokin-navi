@@ -41,3 +41,20 @@ variable "image_tag" {
   type        = string
   default     = "latest"
 }
+
+variable "secrets_db_password_id" {
+  description = "シークレット内のDBパスワード"
+  type        = string
+}
+
+variable "db_instance_connection_name" {
+  type = string
+}
+
+variable "db_name" {
+  type = string
+}
+
+variable "db_user_name" {
+  type = string
+}

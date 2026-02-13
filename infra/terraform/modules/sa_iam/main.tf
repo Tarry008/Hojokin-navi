@@ -47,3 +47,21 @@ resource "google_project_iam_member" "gcs_pubsub_publishing" {
   role    = "roles/pubsub.publisher"
   member  = "serviceAccount:service-${var.project_number}@gs-project-accounts.iam.gserviceaccount.com"
 }
+
+resource "google_project_iam_member" "cloudsql_client" {
+  project = var.project_id
+  role    = "roles/cloudsql.client"
+  member  = "serviceAccount:${var.run_sa_email}"
+}
+
+resource "google_project_iam_member" "cloudsql_instance_user" {
+  project = var.project_id
+  role    = "roles/cloudsql.instanceUser"
+  member  = "serviceAccount:${var.run_sa_email}" # 実行用サービスアカウントのメールアドレス
+}
+
+resource "google_project_iam_member" "secret_accessor" {
+  project = var.project_id
+  role    = "roles/secretmanager.secretAccessor"
+  member  = "serviceAccount:${var.run_sa_email}"
+}

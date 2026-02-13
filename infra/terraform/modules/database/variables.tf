@@ -3,6 +3,10 @@ variable "instance_tier" {
   type        = string
 }
 
-variable "db_iam_user" {
+variable "secrets_db_password" {
+  type = string
+}
+
+variable "developer" {
   type = list(string)
 }

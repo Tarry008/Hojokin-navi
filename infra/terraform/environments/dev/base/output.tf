@@ -43,3 +43,19 @@ output "raw_bucket_name" {
 output "vector_bucket_name" {
   value = module.storage.vector_data_bucket_name
 }
+
+output "secret_db_password_id" {
+  value = module.secrets.db_password_id
+}
+
+output "db_instance_connection_name" {
+  value = module.database.db_instance_connection_name
+}
+
+output "db_name" {
+  value = module.database.db_name
+}
+
+output "db_user_name" {
+  value = module.database.db_user_name
+}
