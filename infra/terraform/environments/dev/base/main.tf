@@ -16,9 +16,10 @@ provider "google" {
 data "google_project" "project" {}
 
 module "database" {
-  source        = "../../../modules/database"
-  instance_tier = "db-f1-micro"
-  db_iam_user   = var.developer
+  source              = "../../../modules/database"
+  instance_tier       = "db-f1-micro"
+  developer           = var.developer
+  secrets_db_password = module.secrets.db_password_value
 }
 
 module "network" {
@@ -39,4 +40,8 @@ module "artifact_registry" {
 
 module "sa_creation" {
   source = "../../../modules/sa_creation"
+}
+
+module "secrets" {
+  source = "../../../modules/secrets"
 }

@@ -36,16 +36,20 @@ module "sa_iam" {
 }
 
 module "cloud_run" {
-  source                   = "../../../modules/cloud_run"
-  service_name             = "cloudrun-dev"
-  repository_id            = data.terraform_remote_state.base.outputs.repository_id
-  vpc_id                   = data.terraform_remote_state.base.outputs.vpc_id
-  subnet_id                = data.terraform_remote_state.base.outputs.subnet_id
-  run_sa_email             = data.terraform_remote_state.base.outputs.run_sa_email
-  project_id               = var.project_id
-  vertex_index_endpoint_id = module.ai_service.google_vertex_ai_index_endpoint
-  image_name               = "dev-ai-app-image"
-  repository_url           = data.terraform_remote_state.base.outputs.repository_url
+  source                      = "../../../modules/cloud_run"
+  service_name                = "cloudrun-dev"
+  repository_id               = data.terraform_remote_state.base.outputs.repository_id
+  vpc_id                      = data.terraform_remote_state.base.outputs.vpc_id
+  subnet_id                   = data.terraform_remote_state.base.outputs.subnet_id
+  run_sa_email                = data.terraform_remote_state.base.outputs.run_sa_email
+  project_id                  = var.project_id
+  vertex_index_endpoint_id    = module.ai_service.google_vertex_ai_index_endpoint
+  image_name                  = "dev-ai-app-image"
+  repository_url              = data.terraform_remote_state.base.outputs.repository_url
+  db_instance_connection_name = data.terraform_remote_state.base.outputs.db_instance_connection_name
+  db_name                     = data.terraform_remote_state.base.outputs.db_name
+  db_user_name                = data.terraform_remote_state.base.outputs.db_user_name
+  secrets_db_password_id      = data.terraform_remote_state.base.outputs.secret_db_password_id
 }
 
 module "ai_service" {
