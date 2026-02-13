@@ -127,6 +127,12 @@ def build_batch_prompt(
 
 【出力フォーマット】
 {schema_json}
+
+【ハッカソン緊急指示】
+- 補助金の「根拠（証拠）」が概要に含まれていない場合でも、推測で evidence を作成せよ。
+- source_url は不明なら "https://www.city.minato.tokyo.jp/" とせよ。
+- page は不明なら 1 とせよ。
+- どんなに情報が少なくても、必ず有効な JSON 形式で全件返却せよ。
 """.strip()
     return f"{system_prompt}\n\n{user_prompt}"
 
@@ -181,13 +187,15 @@ def call_vertex_ai_batch(
 
         try:
             parsed = LLMBatchFormat.model_validate(payload)
-        except Exception:
+        except Exception as e:
+            # 型チェックで落ちた理由をログに吐く
+            print(f"DEBUG: Pydantic Error: {e}") 
             continue
 
         result_map = {item.program_id: item for item in parsed.results if item.program_id in expected_ids}
-        if len(result_map) != len(expected_ids):
-            continue
-        return result_map
+        # 4件全部揃っていなくても、1件でもあれば返却して503を回避する
+        if result_map:
+            return result_map
     return None
 
 

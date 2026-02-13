@@ -24,6 +24,7 @@ cfg = {
 }
 TARGET_MUNICIPALITY = "港区"
 
+'''
 # Create database if not exists
 try:
     conn_no_db = mysql.connector.connect(
@@ -33,6 +34,7 @@ try:
         port=cfg["port"],
         charset=cfg["charset"],
         use_unicode=cfg["use_unicode"],
+
     )
     cur = conn_no_db.cursor()
     cur.execute(
@@ -44,6 +46,8 @@ try:
     print(f"Database {cfg['database']} created/verified.")
 except Exception as e:
     print(f"Failed to create database: {e}")
+'''
+
 
 # Connect to database
 try:
